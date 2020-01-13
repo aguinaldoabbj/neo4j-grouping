@@ -190,7 +190,8 @@ function multiMerge(agg, pair) {
 function convertNumbers(data) {
     for (key in Object.keys(data)) {
         let val = data[key];
-        if (neo4j.v1.isInt(val)) data[key] = val.toInt();
+        //if (neo4j.v1.isInt(val)) data[key] = val.toInt();
+	if (neo4j.isInt(val)) data[key] = val.toInt();
     }
     return data;
 }
@@ -614,7 +615,8 @@ function fillFields() {
  */
 function loadDatabaseProperties() {
     if (driver !== null) driver.close();
-    driver = neo4j.v1.driver($('#url').val(), neo4j.v1.auth.basic($('#user').val(), $('#password').val()));
+    //driver = neo4j.v1.driver($('#url').val(), neo4j.v1.auth.basic($('#user').val(), $('#password').val()));
+    driver = neo4j.driver($('#url').val(), neo4j.auth.basic($('#user').val(), $('#password').val()));
     const session = driver.session();
     session.run(`
          CALL db.labels() yield label return label as name, 'label' as type 
